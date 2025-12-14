@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Roleta da Paixão - Vida de Casal</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF4D80',
+                        secondary: '#FFB3C6',
+                        accent: '#8B5CF6',
+                        dark: '#2D0F18',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-dark text-white font-sans h-screen overflow-hidden relative selection:bg-primary/30">
+
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="images/bg.png" alt="Background" class="w-full h-full object-cover opacity-40">
+        <div class="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/50 to-dark/90"></div>
+    </div>
+
+    <!-- App Container -->
+    <div class="relative z-10 h-full flex flex-col max-w-md mx-auto bg-white/5 backdrop-blur-sm border-x border-white/10 shadow-2xl">
+        
+        <!-- Header -->
+        <header class="p-6 text-center flex-shrink-0">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 mb-4 animate-fade-in-down">
+                <i data-lucide="crown" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                <span class="text-xs font-bold tracking-widest uppercase text-white/80">Área VIP</span>
+            </div>
+            <h1 class="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-pink-400 to-accent drop-shadow-lg animate-scale-in">
+                Roleta da Paixão
+            </h1>
+            <p class="text-white/60 text-sm mt-2 animate-fade-in-up">O que vamos fazer hoje?</p>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="flex-1 flex flex-col items-center justify-center p-6 relative">
+            
+            <!-- Wheel Container -->
+            <div class="relative w-72 h-72 md:w-80 md:h-80 mb-8 group">
+                <!-- Glowing Effect -->
+                <div class="absolute inset-0 bg-primary/30 rounded-full blur-3xl animate-pulse-fast group-hover:bg-primary/50 transition-all duration-500"></div>
+                
+                <!-- The Wheel -->
+                <div id="wheel" class="w-full h-full rounded-full border-4 border-white/20 relative shadow-2xl overflow-hidden bg-dark/80 transition-transform duration-[4000ms] cubic-bezier(0.1, 0.7, 0.1, 1)">
+                    <!-- Sections (CSS Conic Gradient) -->
+                    <div class="absolute inset-0 rounded-full opacity-80" style="background: conic-gradient(
+                        #FF4D80 0deg 60deg,
+                        #8B5CF6 60deg 120deg,
+                        #F43F5E 120deg 180deg,
+                        #A855F7 180deg 240deg,
+                        #EC4899 240deg 300deg,
+                        #6366F1 300deg 360deg
+                    );"></div>
+                    
+                    <!-- Icons on Wheel -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i data-lucide="heart" class="absolute top-8 text-white w-8 h-8 drop-shadow-md transform -translate-x-1/2"></i>
+                        <i data-lucide="flame" class="absolute bottom-8 text-white w-8 h-8 drop-shadow-md transform -translate-x-1/2 rotate-180"></i>
+                        <i data-lucide="glass-water" class="absolute right-8 text-white w-8 h-8 drop-shadow-md transform -translate-y-1/2 rotate-90"></i>
+                        <i data-lucide="music" class="absolute left-8 text-white w-8 h-8 drop-shadow-md transform -translate-y-1/2 -rotate-90"></i>
+                    </div>
+                    
+                    <!-- Center Knob -->
+                    <div class="absolute top-1/2 left-1/2 w-16 h-16 bg-white rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-xl flex items-center justify-center z-10 border-4 border-primary">
+                        <i data-lucide="star" class="w-8 h-8 text-primary fill-primary"></i>
+                    </div>
+                </div>
+
+                <!-- Indicator -->
+                <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
+                    <div class="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[25px] border-t-white drop-shadow-lg"></div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="w-full max-w-xs space-y-4 z-20">
+                <div class="flex justify-center gap-2 mb-4">
+                    <button onclick="setMood('romantic')" class="mood-btn active px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs font-bold hover:bg-primary hover:border-primary transition-all">Romântico</button>
+                    <button onclick="setMood('spicy')" class="mood-btn px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs font-bold hover:bg-red-500 hover:border-red-500 transition-all">Picante</button>
+                    <button onclick="setMood('fun')" class="mood-btn px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs font-bold hover:bg-purple-500 hover:border-purple-500 transition-all">Diversão</button>
+                </div>
+
+                <button id="spin-btn" onclick="spinWheel()" class="w-full py-4 bg-gradient-to-r from-primary to-purple-600 rounded-2xl font-display font-black text-xl text-white shadow-xl shadow-primary/30 transform transition-all active:scale-95 hover:shadow-primary/50 flex items-center justify-center gap-2 group">
+                    <i data-lucide="refresh-cw" class="w-6 h-6 group-hover:rotate-180 transition-transform duration-700"></i>
+                    GIRAR AGORA
+                </button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="p-4 text-center text-white/30 text-xs flex-shrink-0">
+            <p>Vida de Casal Premium App</p>
+        </footer>
+
+        <!-- Result Modal (Hidden) -->
+        <div id="result-modal" class="absolute inset-0 z-50 bg-dark/90 backdrop-blur-md flex items-center justify-center p-6 opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="bg-white text-dark rounded-3xl p-8 max-w-sm w-full shadow-2xl transform scale-90 transition-transform duration-300" id="modal-content">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
+                    <i id="result-icon" data-lucide="gift" class="w-8 h-8"></i>
+                </div>
+                
+                <h2 class="text-center font-display font-bold text-2xl mb-2 text-primary">O Destino Escolheu!</h2>
+                <h3 id="result-title" class="text-center font-bold text-xl mb-4 text-dark">Jantar à Luz de Velas</h3>
+                
+                <p id="result-desc" class="text-center text-gray-600 mb-8 leading-relaxed">
+                    Preparem um jantar especial juntos, desliguem os celulares e usem apenas velas para iluminar.
+                </p>
+
+                <div class="space-y-3">
+                    <button onclick="closeModal()" class="w-full py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">
+                        Aceitar Desafio
+                    </button>
+                    <button onclick="spinAgain()" class="w-full py-3 bg-gray-100 text-gray-600 rounded-xl font-bold hover:bg-gray-200 transition-colors">
+                        Girar Novamente
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Confetti Container -->
+            <div id="confetti" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+        </div>
+
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
